@@ -1,3 +1,5 @@
+#!/usr/bin/perl
+
 # Examples:
 #
 # Euler, Ellery -> E460

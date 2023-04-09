@@ -1,35 +1,44 @@
-my $input = $ARGV[0];
-my @output;
-# takes in 1 parameter that is an character array
+# Examples:
+#
+# Euler, Ellery -> E460
+# Gauss, Ghosh -> G200
+# Hilbert, Heilbronn -> H416
+# Knuth, Kant -> K530
+# Lloyd, Ladd -> L300
+# Lukasiewicz, Lissajous -> L222
+
+# getting the arguments as input lol
+my @input = $ARGV[0];
 sub soundex
 {
-	@array = @_;
-	$ret;
-	for $index (0..$#array) {
-		$ret .= ($index < 1) ? $array[$index] : "";
-		if ($array[$index] =~ m/[wh]/) { $ret .= "";}
-		if ($array[$index] =~ m/[aeiouy]/) { $ret .= "_";}
-		if ($array[$index] =~ m/[bpfv]/) { $ret .= "1";}
-		if ($array[$index] =~ m/[cgjkqsxz]/) { $ret .= "2";}
-		if ($array[$index] =~ m/[dt]/) { $ret .= "3";}
-		if ($array[$index] =~ m/[l]/) { $ret .= "4";}
-		if ($array[$index] =~ m/[mn]/) { $ret .= "5";}
-		if ($array[$index] =~ m/[r]/) { $ret .= "6";}
-		$l = length($ret) - 1;
-		$cur = substr($ret, $l, 1);
-		$prev = substr($ret, $l - 1, 1);
-		if ($cur =~ $prev and $l > 1) { $ret = substr($ret, 0, $l - 1); }
-	}
-	$ret =~ s/[^a-zA-Z0-9]*//g;
-	$ret = substr($ret, 0, 4);
-	return $ret;
+	my @results = map {
+		# returns uppercase result of the input
+		my $code = uc($_);
+		if (length($code)) {
+			my $firstchar = substr($code, 0, 1);
+			# transliterating through the string
+			# swapping characters out
+			# and getting rid of every duplicate
+			$code =~ tr[AEHIOUWYBFPVCGJKQSXZDTLMNR]
+					   [00000000111122222222334556]s;
+			# ignoring the first char, and removing 0
+			($code = substr($code, 1)) =~ tr/0//d;
+			# creating the string to be returned
+			substr($firstchar . $code . '000', 0, 4);
+		} else {
+			# return nothing
+			$nocode;
+		}
+	} @_;
+	# checks if the result of the subrotone is either
+	# an array or a scalar
+	# and depending on that returns the result
+	wantarray ? @results : $results[0];
 }
 
-# https://gist.github.com/ishu3101/00c296fcb04bb10f4c2d5fbff894b06a
-for $i (0..length($input)-1) {
-	$char = substr($input, $i, 1);
-	push(@output,$char);
-}
+my @names = ("Euler", "Ellery", "Gauss", "Ghosh", "Hilbert", "Heilbronn", "Knuth", "Kant", "Lloyd", "Ladd", "Lukasiewicz", "Lissajous");
 
-$output = soundex(@output);
-print $output;
+my @solution = soundex(@names);
+for $i (0..length(solution)) {
+	print $names[$i]," => ",$solution[$i],"\n";
+}

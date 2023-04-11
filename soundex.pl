@@ -13,8 +13,13 @@
 my @input = $ARGV[0];
 sub soundex
 {
+	# mapping the "@_" to an list results
+	# aka. mapping works in a way that for every
+	# entry the defined function
+	# syntax looks a little bit weird compared
+	# to other languages but works fine
 	my @results = map {
-		# returns uppercase result of the input
+		# returns uppercase result of the entry
 		my $code = uc($_);
 		if (length($code)) {
 			my $firstchar = substr($code, 0, 1);
@@ -41,6 +46,6 @@ sub soundex
 my @names = ("Euler", "Ellery", "Gauss", "Ghosh", "Hilbert", "Heilbronn", "Knuth", "Kant", "Lloyd", "Ladd", "Lukasiewicz", "Lissajous");
 
 my @solution = soundex(@names);
-for $i (0..length(solution)) {
+for $i (0..scalar(@solution)-1) {
 	print $names[$i]," => ",$solution[$i],"\n";
 }

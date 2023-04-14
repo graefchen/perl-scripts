@@ -9,9 +9,12 @@
 # Lloyd, Ladd -> L300
 # Lukasiewicz, Lissajous -> L222
 
+use strict;
+use warnings;
+
 # getting the arguments as input lol
 my @input = $ARGV[0];
-sub soundex
+sub soundex(@)
 {
 	# mapping the "@_" to an list results
 	# aka. mapping works in a way that for every
@@ -34,7 +37,7 @@ sub soundex
 			substr($firstchar . $code . '000', 0, 4);
 		} else {
 			# return nothing
-			$nocode;
+			my $nocode;
 		}
 	} @_;
 	# checks if the result of the subrotone is either
@@ -46,6 +49,10 @@ sub soundex
 my @names = ("Euler", "Ellery", "Gauss", "Ghosh", "Hilbert", "Heilbronn", "Knuth", "Kant", "Lloyd", "Ladd", "Lukasiewicz", "Lissajous");
 
 my @solution = soundex(@names);
-for $i (0..scalar(@solution)-1) {
+for my $i (0..scalar(@solution)-1) {
 	print $names[$i]," => ",$solution[$i],"\n";
 }
+
+my $name = "Euler";
+my $solution = soundex($name);
+print $name," => ",$solution,"\n";

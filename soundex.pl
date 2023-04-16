@@ -12,8 +12,6 @@
 use strict;
 use warnings;
 
-# getting the arguments as input lol
-my @input = $ARGV[0];
 sub soundex(@)
 {
 	# mapping the "@_" to an list results
